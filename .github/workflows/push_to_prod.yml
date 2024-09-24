@@ -11,22 +11,23 @@ jobs:
         with:
           key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
           known_hosts: ${{ secrets.DIGITAL_OCEAN_KNOWN_HOSTS }}
-      - name: Install Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 8
-      - name: Install Clojure
-        uses: DeLaGuardo/setup-clojure@12.5
-        with:
-          cli: latest
+      # - name: Install Java
+      #   uses: actions/setup-java@v3
+      #   with:
+      #     distribution: 'zulu'
+      #     java-version: 8
+      # - name: Install Clojure
+      #   uses: DeLaGuardo/setup-clojure@12.5
+      #   with:
+      #     cli: latest
       - name: Push to droplet
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git remote add prod ssh://app@eelchat.lespik.app/home/app/repo.git
-          clojure -M:dev deploy
-          clojure -M:dev logs
+          git push prod main
+          # clojure -M:dev deploy
+          # clojure -M:dev logs
           
           
 
