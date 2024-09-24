@@ -25,8 +25,8 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git remote add prod ssh://app@eelchat.lespik.app/home/app/repo.git
-          clj -M:dev deploy
-          clj -M:dev logs
+          clojure -M:dev deploy
+          clojure -M:dev logs
           
           
 
