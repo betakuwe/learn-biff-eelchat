@@ -26,28 +26,42 @@
 (defn base [{:keys [::recaptcha] :as ctx} & body]
   (apply
    biff/base-html
-   (-> ctx
-       (merge #:base{:title settings/app-name
-                     :lang "en-US"
-                     :description "The world's finest discussion platform."
-                     :image "/img/logo.png"})
-       (update :base/head (fn [head]
-                            (concat [[:link {:rel "stylesheet" :href (css-path)}]
-                                     [:script {:src (js-path)}]
-                                     [:script {:src "https://unpkg.com/htmx.org@1.9.10"}]
-                                     [:script {:src "https://unpkg.com/htmx.org/dist/ext/ws.js"}]
-                                     [:script {:src "https://unpkg.com/hyperscript.org@0.9.8"}]
-                                     [:link {:href "/apple-touch-icon.png", :sizes "180x180", :rel "apple-touch-icon"}]
-                                     [:link {:href "/favicon-32x32.png", :sizes "32x32", :type "image/png", :rel "icon"}]
-                                     [:link {:href "/favicon-16x16.png", :sizes "16x16", :type "image/png", :rel "icon"}]
-                                     [:link {:href "/site.webmanifest", :rel "manifest"}]
-                                     [:link {:color "#5bbad5", :href "/safari-pinned-tab.svg", :rel "mask-icon"}]
-                                     [:meta {:content "#da532c", :name "msapplication-TileColor"}]
-                                     [:meta {:content "#0d9488", :name "theme-color"}]
-                                     (when recaptcha
-                                       [:script {:src "https://www.google.com/recaptcha/api.js"
-                                                 :async "async" :defer "defer"}])]
-                                    head))))
+   (->
+    ctx
+    (merge #:base{:title settings/app-name
+                  :lang "en-US"
+                  :description "The world's finest discussion platform."
+                  :image "/img/logo.png"})
+    (update
+     :base/head
+     (fn [head]
+       (concat
+        [[:link {:rel "stylesheet" :href (css-path)}]
+         [:script {:src (js-path)}]
+         [:script {:src "https://unpkg.com/htmx.org@1.9.10"}]
+         [:script {:src "https://unpkg.com/htmx.org/dist/ext/ws.js"}]
+         [:script {:src "https://unpkg.com/hyperscript.org@0.9.8"}]
+         [:link {:href "/apple-touch-icon.png"
+                 :sizes "180x180"
+                 :rel "apple-touch-icon"}]
+         [:link {:href "/favicon-32x32.png"
+                 :sizes "32x32"
+                 :type "image/png"
+                 :rel "icon"}]
+         [:link {:href "/favicon-16x16.png"
+                 :sizes "16x16"
+                 :type "image/png"
+                 :rel "icon"}]
+         [:link {:href "/site.webmanifest", :rel "manifest"}]
+         [:link {:color "#5bbad5"
+                 :href "/safari-pinned-tab.svg"
+                 :rel "mask-icon"}]
+         [:meta {:content "#da532c", :name "msapplication-TileColor"}]
+         [:meta {:content "#0d9488", :name "theme-color"}]
+         (when recaptcha
+           [:script {:src "https://www.google.com/recaptcha/api.js"
+                     :async "async" :defer "defer"}])]
+        head))))
    body))
 
 (defn page [ctx & body]
