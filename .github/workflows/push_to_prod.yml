@@ -1,5 +1,4 @@
 name: Push to prod
-on: [push]
 jobs:
   push-to-digital-ocean:
     runs-on: ubuntu-latest
