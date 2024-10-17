@@ -34,7 +34,8 @@
     {:status 303
      :headers {"Location" (str "/community/" community-id)}}))
 
-(defn community [{:keys [biff/db path-params] :as ctx}]
+(defn community [{:keys [biff/db user path-params] :as ctx}]
+  (biff/pprint user)
   (if-some [community (xt/entity db (parse-uuid (:id path-params)))]
     (ui/page
      {}
