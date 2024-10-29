@@ -5,21 +5,24 @@
             [xtdb.api :as xt]
             [clojure.core :as c]))
 
-(defn app [{:keys [session biff/db] :as ctx}]
-  (let [{:user/keys [email]} (xt/entity db (:uid session))]
-    (ui/page
-     {}
-     [:div "Signed in as " email ". "
-      (biff/form
-       {:action "/auth/signout"
-        :class "inline"}
-       [:button.text-blue-500.hover:text-blue-800 {:type "submit"}
-        "Sign out"])
-      "."]
-     [:.h-6]
-     (biff/form
-      {:action "/community"}
-      [:button.btn {:type "submit"} "New community"]))))
+(defn app [ctx]
+  (ui/app-page
+   ctx
+   [:p "Select a community, or create a new one."])
+  #_(let [{:user/keys [email]} (xt/entity db (:uid session))]
+      (ui/page
+       {}
+       [:div "Signed in as " email ". "
+        (biff/form
+         {:action "/auth/signout"
+          :class "inline"}
+         [:button.text-blue-500.hover:text-blue-800 {:type "submit"}
+          "Sign out"])
+        "."]
+       [:.h-6]
+       (biff/form
+        {:action "/community"}
+        [:button.btn {:type "submit"} "New community"]))))
 
 (defn new-community [{:keys [session] :as ctx}]
   (let [community-id (random-uuid)]
@@ -34,7 +37,8 @@
     {:status 303
      :headers {"Location" (str "/community/" community-id)}}))
 
-(defn community [{:keys [biff/db path-params] :as ctx}]
+(defn community [{:keys [biff/db user path-params] :as ctx}]
+  ; (biff/pprint user)
   (if-some [community (xt/entity db (parse-uuid (:id path-params)))]
     (ui/page
      {}
