@@ -21,12 +21,7 @@
                              (:uid session)))]
       (handler (assoc ctx :user user))
       {:status 303
-       :headers {"location" "/?error=not-signed-in"}}))
-  #_(fn [{:keys [session] :as ctx}]
-      (if (some? (:uid session))
-        (handler ctx)
-        {:status 303
-         :headers {"location" "/signin?error=not-signed-in"}})))
+       :headers {"location" "/?error=not-signed-in"}})))
 
 ;; Stick this function somewhere in your middleware stack below if you want to
 ;; inspect what things look like before/after certain middleware fns run.
